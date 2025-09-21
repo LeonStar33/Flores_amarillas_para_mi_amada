@@ -7,18 +7,15 @@
 <style>
   :root{
     --bg1:#0b0f1a;
-    --bg2:#1a1840;
     --petal:#ffd21f;
     --petal-edge:#ffef8f;
     --center:#3d220d;
-    --center-highlight:#6a3a18;
     --leaf:#2bb673;
     --stem:#16824b;
     --glow:#ffe86a;
     --text:#fff9d9;
   }
 
-  /* Reset & layout */
   *{box-sizing:border-box}
   html,body{height:100%;margin:0}
   body{
@@ -27,15 +24,16 @@
     color: var(--text);
     overflow:hidden;
   }
+
   .stage{
     position:relative;
     width:100%;
     height:100%;
     display:grid;
-    place-items:center;
+    place-items:center; /* centrado por defecto del grid */
   }
 
-  /* Message */
+  /* Mensaje */
   .message{
     position:absolute;
     top:15px;
@@ -58,8 +56,13 @@
     line-height:1;
     margin-top:.20em;
   }
+  .message .extra{
+    display:block;
+    font-size:clamp(18px, 4vw, 28px);
+    margin-top:.25em;
+  }
 
-  /* Ground */
+  /* Suelo */
   .ground{
     position:absolute; bottom:-80px; left:50%; transform:translateX(-50%);
     width:min(900px, 95vw); height:260px; pointer-events:none;
@@ -68,13 +71,17 @@
     filter: blur(2px);
   }
 
-  /* Bouquet wrapper */
-.bouquet {
-  position:relative;
-  width:min(820px, 92vw);
-  height:min(580px, 60vh);
-}
-  /* Individual flower instances (SVG <use> wrapped for easier transforms) */
+  /* Contenedor del ramo */
+  .bouquet{
+    position:relative;
+    width:min(820px, 92vw);
+    height:min(580px, 60vh);
+    margin-top:120px;                 /* baja el ramo para dejar espacio al texto */
+    justify-self:center;              /* centra horizontal dentro del grid */
+    align-self:start;                 /* ¡importante! que respete el margin-top */
+  }
+
+  /* Cada flor (igual que tu diseño original) */
   .flower{
     position:absolute;
     transform-origin:50% 100%;
@@ -87,7 +94,7 @@
     50%     { transform:rotate(2.5deg) translateY(-4px) }
   }
 
-  /* SVG styling via CSS variables */
+  /* SVG */
   svg{overflow:visible}
   .petal{
     fill: url(#petalFill);
@@ -98,7 +105,7 @@
   .leaf{ fill: url(#leafFill) }
   .stem{ stroke: var(--stem); stroke-width:8; stroke-linecap:round; filter: drop-shadow(0 3px 2px rgba(0,0,0,.35)) }
 
-  /* Floating particles (stars/hearts) */
+  /* Partículas */
   .particle{
     position:absolute;
     left:0; top:0;
@@ -109,13 +116,12 @@
     filter: drop-shadow(0 0 6px rgba(255,232,106,.9));
   }
 
-  /* Tiny help text */
   .hint{
     position:absolute; bottom:14px; width:100%; text-align:center;
     font-size:12px; opacity:.7;
   }
 
-  /* Subtle twinkle background */
+  /* Brillitos de fondo */
   .twinkle{
     position:absolute; inset:0; pointer-events:none; overflow:hidden;
     background:
@@ -133,10 +139,15 @@
     to  { transform:translateY(-40px) }
   }
 
-  .bouquet {
-  margin-top: 100px; /* Ajusta este valor según lo necesites */
-}
-
+  /* Móvil: mantenemos posiciones, solo escalamos el ramo para que quepa y no se vaya abajo */
+  @media (max-width: 600px){
+    .bouquet{
+      transform: scale(.86);
+      transform-origin: center top;
+      height: 62vh;       /* un poco más de alto visible para no cortar flores */
+      margin-top: 110px;  /* ajusta si quieres más espacio al texto */
+    }
+  }
 </style>
 </head>
 <body>
@@ -146,14 +157,13 @@
     <div class="message">
       <span class="te">TE</span>
       <span class="amo">AMO</span>
-      <span class=>✦Feliz 21 de Septiembre mi amada Nericita✦</span>
+      <span class="extra">✦ Feliz 21 de Septiembre mi amada Nericita ✦</span>
     </div>
 
     <div class="bouquet" id="bouquet">
-      <!-- SVG defs once; we’ll reuse with <use> -->
+      <!-- Definiciones SVG -->
       <svg width="0" height="0" aria-hidden="true" focusable="false">
         <defs>
-          <!-- Gradients -->
           <radialGradient id="petalFill" cx="50%" cy="40%" r="70%">
             <stop offset="0%"  stop-color="#fff59e"/>
             <stop offset="45%" stop-color="var(--petal)"/>
@@ -169,34 +179,29 @@
             <stop offset="100%" stop-color="var(--leaf)"/>
           </linearGradient>
 
-          <!-- One sunflower head (group) -->
           <g id="sunflowerHead">
-            <!-- petals: 16 rotated teardrops -->
             <g id="petal">
               <path class="petal" d="M0,0 C-10,-26 10,-26 0,-60 C-10,-26 10,-26 0,0Z" />
             </g>
             <g>
-              <!-- rotate 16 times -->
-              <use href="#petal" transform="rotate(0)  translate(0,0)"/>
-              <use href="#petal" transform="rotate(22.5) translate(0,0)"/>
-              <use href="#petal" transform="rotate(45)  translate(0,0)"/>
-              <use href="#petal" transform="rotate(67.5) translate(0,0)"/>
-              <use href="#petal" transform="rotate(90)  translate(0,0)"/>
-              <use href="#petal" transform="rotate(112.5) translate(0,0)"/>
-              <use href="#petal" transform="rotate(135) translate(0,0)"/>
-              <use href="#petal" transform="rotate(157.5) translate(0,0)"/>
-              <use href="#petal" transform="rotate(180) translate(0,0)"/>
-              <use href="#petal" transform="rotate(202.5) translate(0,0)"/>
-              <use href="#petal" transform="rotate(225) translate(0,0)"/>
-              <use href="#petal" transform="rotate(247.5) translate(0,0)"/>
-              <use href="#petal" transform="rotate(270) translate(0,0)"/>
-              <use href="#petal" transform="rotate(292.5) translate(0,0)"/>
-              <use href="#petal" transform="rotate(315) translate(0,0)"/>
-              <use href="#petal" transform="rotate(337.5) translate(0,0)"/>
+              <use href="#petal" transform="rotate(0)"/>
+              <use href="#petal" transform="rotate(22.5)"/>
+              <use href="#petal" transform="rotate(45)"/>
+              <use href="#petal" transform="rotate(67.5)"/>
+              <use href="#petal" transform="rotate(90)"/>
+              <use href="#petal" transform="rotate(112.5)"/>
+              <use href="#petal" transform="rotate(135)"/>
+              <use href="#petal" transform="rotate(157.5)"/>
+              <use href="#petal" transform="rotate(180)"/>
+              <use href="#petal" transform="rotate(202.5)"/>
+              <use href="#petal" transform="rotate(225)"/>
+              <use href="#petal" transform="rotate(247.5)"/>
+              <use href="#petal" transform="rotate(270)"/>
+              <use href="#petal" transform="rotate(292.5)"/>
+              <use href="#petal" transform="rotate(315)"/>
+              <use href="#petal" transform="rotate(337.5)"/>
             </g>
-            <!-- center -->
             <circle class="disk" r="40" />
-            <!-- tiny highlight seeds -->
             <g opacity=".25">
               <circle r="2" cx="-16" cy="-6" fill="#fff9c4"/>
               <circle r="2" cx="10" cy="8" fill="#fff9c4"/>
@@ -206,14 +211,12 @@
             </g>
           </g>
 
-          <!-- A leaf -->
           <path id="leafShape" class="leaf"
                 d="M0,0 C 40,-30 80,0 72,24 C 64,52 28,64 0,44 C -20,30 -10,16 0,0 Z" />
         </defs>
       </svg>
 
-      <!-- We compose each flower: curved stem + head + two leaves -->
-      <!-- Positions are done with inline styles for variety -->
+      <!-- MISMAS 5 FLORES, misma posición absoluta -->
       <div class="flower" style="left:7%;  bottom:10%; animation-delay:-.2s;">
         <svg width="170" height="400" viewBox="-85 -20 170 420">
           <path class="stem" d="M0,380 C -10,330 -20,270 -8,210 C 6,150 6,100 0,60"/>
@@ -247,7 +250,7 @@
         </svg>
       </div>
 
-      <div class="flower" style="left:56%; bottom:8%; animation-delay:.35s;">
+      <div class="flower" style="left:56%; bottom:8%; animation-delay:.35s%;">
         <svg width="200" height="420" viewBox="-100 -20 200 440">
           <path class="stem" d="M0,390 C 14,330 22,280 12,220 C 2,165 -8,120 0,74"/>
           <use href="#leafShape" transform="translate(-28,260) rotate(-14) scale(1.05)"/>
@@ -271,12 +274,11 @@
     </div>
 
     <div class="ground"></div>
-    <div class="hint">Toca para soltar corazones amorcito ❤ </div>
+    <div class="hint">Toca para soltar corazones amorcito ❤</div>
   </div>
 
 <script>
 (() => {
-  // Particle system (stars/hearts that rise and fade)
   const stage = document.getElementById('stage');
 
   function spawnParticle(x, y, symbol) {
@@ -296,7 +298,7 @@
 
     function frame(t){
       const k = Math.min(1, (t - start)/duration);
-      const ease = 1 - Math.pow(1-k, 3); // easeOutCubic
+      const ease = 1 - Math.pow(1-k, 3);
       const tx = x + drift * ease;
       const ty = y - rise * ease;
       const s = scale * (1 + 0.2*Math.sin(k*6.283));
@@ -308,7 +310,6 @@
     requestAnimationFrame(frame);
   }
 
-  // Ambient particles
   function randomAmbient(){
     const rect = stage.getBoundingClientRect();
     const x = Math.random()*rect.width;
@@ -317,7 +318,6 @@
   }
   setInterval(randomAmbient, 500);
 
-  // Click/Tap to spawn bursts
   function burst(e){
     const rect = stage.getBoundingClientRect();
     const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
@@ -332,3 +332,4 @@
 </script>
 </body>
 </html>
+
