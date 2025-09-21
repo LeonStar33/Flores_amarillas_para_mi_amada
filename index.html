@@ -71,12 +71,8 @@
   /* Bouquet wrapper */
 .bouquet {
   position:relative;
-  width:100%;
-  max-width:820px;
-  margin:100px auto 0;
-  display:flex;
-  justify-content:space-around;
-  flex-wrap:wrap;
+  width:min(820px, 92vw);
+  height:min(580px, 60vh);
 }
   /* Individual flower instances (SVG <use> wrapped for easier transforms) */
   .flower{
