@@ -64,7 +64,7 @@
 
   /* Suelo */
   .ground{
-    position:absolute; bottom:-80px; left:50%; transform:translateX(-50%);
+    position:absolute; bottom:20px; left:50%; transform:translateX(-50%);
     width:min(900px, 95vw); height:260px; pointer-events:none;
     background: radial-gradient(60% 80% at 50% 10%, rgba(0,0,0,.18), transparent 60%),
                 radial-gradient(70% 100% at 50% 100%, rgba(0,0,0,.35), transparent 70%);
@@ -144,8 +144,10 @@
     .bouquet{
       transform: scale(.86);
       transform-origin: center top;
-      height: 62vh;       /* un poco más de alto visible para no cortar flores */
+      height: 65vh;       /* un poco más de alto visible para no cortar flores */
       margin-top: 110px;  /* ajusta si quieres más espacio al texto */
+      margin-right: 200vh;
+      margin-left: -3vh;
     }
   }
 </style>
@@ -332,4 +334,3 @@
 </script>
 </body>
 </html>
-
