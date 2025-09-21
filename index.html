@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,22 +9,19 @@
 <style>
   :root{
     --bg1:#0b0f1a;
-    --bg2:#1a1840;
     --petal:#ffd21f;
     --petal-edge:#ffef8f;
     --center:#3d220d;
-    --center-highlight:#6a3a18;
     --leaf:#2bb673;
     --stem:#16824b;
     --glow:#ffe86a;
     --text:#fff9d9;
   }
 
-  /* Reset & layout */
   *{box-sizing:border-box}
   html,body{height:100%;margin:0}
   body{
-    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    font-family: Arial, sans-serif;
     background: radial-gradient(1200px 700px at 50% 100%, #22265b, var(--bg1)) fixed;
     color: var(--text);
     overflow:hidden;
@@ -35,17 +34,16 @@
     place-items:center;
   }
 
-  /* Message */
+  /* Mensaje */
   .message{
     position:absolute;
     top:15px;
     width:100%;
     text-align:center;
-    letter-spacing:.15em;
+    letter-spacing:.12em;
     text-transform:uppercase;
     font-weight:800;
     text-shadow:0 0 10px var(--glow), 0 0 30px var(--glow);
-    filter: drop-shadow(0 0 6px rgba(255,232,106,.6));
     pointer-events:none;
   }
   .message .te{
@@ -55,280 +53,186 @@
   .message .amo{
     display:block;
     font-size:clamp(42px, 9vw, 80px);
-    line-height:1;
     margin-top:.20em;
   }
+  .message .extra{
+    display:block;
+    font-size:clamp(18px, 4vw, 28px);
+    margin-top:.3em;
+  }
 
-  /* Ground */
+  /* Suelo */
   .ground{
     position:absolute; bottom:-80px; left:50%; transform:translateX(-50%);
-    width:min(900px, 95vw); height:260px; pointer-events:none;
+    width:min(900px, 95vw); height:260px;
     background: radial-gradient(60% 80% at 50% 10%, rgba(0,0,0,.18), transparent 60%),
                 radial-gradient(70% 100% at 50% 100%, rgba(0,0,0,.35), transparent 70%);
     filter: blur(2px);
   }
 
-  /* Bouquet wrapper */
+  /* Ramo */
   .bouquet{
-    position:relative;
-    width:min(820px, 92vw);
-    height:min(580px, 60vh);
+    margin-top:100px;
+    display:flex;
+    justify-content:space-around;
+    flex-wrap:wrap;
+    width:100%;
+    max-width:820px;
   }
 
-  /* Individual flower instances (SVG <use> wrapped for easier transforms) */
   .flower{
-    position:absolute;
-    transform-origin:50% 100%;
-    animation: sway 5.5s ease-in-out infinite;
+    animation: sway 6s ease-in-out infinite;
   }
-  .flower:nth-child(odd){ animation-duration:6.3s}
-  .flower:nth-child(3n){ animation-duration:7.1s}
+  .flower:nth-child(odd){ animation-duration:7s}
+  .flower:nth-child(3n){ animation-duration:8s}
   @keyframes sway{
-    0%,100%{ transform:rotate(-2.5deg) translateY(0) }
-    50%     { transform:rotate(2.5deg) translateY(-4px) }
+    0%,100%{ transform:rotate(-3deg)}
+    50%{ transform:rotate(3deg)}
   }
 
-  /* SVG styling via CSS variables */
   svg{overflow:visible}
-  .petal{
-    fill: url(#petalFill);
-    stroke: var(--petal-edge); stroke-width:1.2; stroke-opacity:.45;
-    filter: drop-shadow(0 2px 1px rgba(0,0,0,.25));
-  }
-  .disk{ fill:url(#diskFill) }
-  .leaf{ fill: url(#leafFill) }
-  .stem{ stroke: var(--stem); stroke-width:8; stroke-linecap:round; filter: drop-shadow(0 3px 2px rgba(0,0,0,.35)) }
+  .petal{fill:var(--petal); stroke:var(--petal-edge); stroke-width:1.2}
+  .disk{fill:var(--center)}
+  .leaf{fill:var(--leaf)}
+  .stem{stroke:var(--stem); stroke-width:8; stroke-linecap:round}
 
-  /* Floating particles (stars/hearts) */
+  /* Partículas */
   .particle{
     position:absolute;
-    left:0; top:0;
-    font-size:12px;
-    will-change: transform, opacity;
+    font-size:14px;
     user-select:none;
     pointer-events:none;
-    filter: drop-shadow(0 0 6px rgba(255,232,106,.9));
+    filter: drop-shadow(0 0 6px var(--glow));
   }
 
-  /* Tiny help text */
   .hint{
     position:absolute; bottom:14px; width:100%; text-align:center;
     font-size:12px; opacity:.7;
   }
-
-  /* Subtle twinkle background */
-  .twinkle{
-    position:absolute; inset:0; pointer-events:none; overflow:hidden;
-    background:
-      radial-gradient(2px 2px at 10% 20%, #fff8b9aa, transparent 50%),
-      radial-gradient(1.5px 1.5px at 30% 10%, #fff8b966, transparent 50%),
-      radial-gradient(1.5px 1.5px at 80% 30%, #fff8b966, transparent 50%),
-      radial-gradient(2px 2px at 70% 15%, #fff8b9aa, transparent 50%),
-      radial-gradient(1.5px 1.5px at 15% 70%, #fff8b966, transparent 50%),
-      radial-gradient(2px 2px at 85% 75%, #fff8b9aa, transparent 50%);
-    opacity:.35;
-    animation: drift 30s linear infinite;
-  }
-  @keyframes drift{
-    from{ transform:translateY(0) }
-    to  { transform:translateY(-40px) }
-  }
-
-  .bouquet {
-  margin-top: 100px; /* Ajusta este valor según lo necesites */
-}
-
 </style>
 </head>
 <body>
   <div class="stage" id="stage">
-    <div class="twinkle"></div>
-
     <div class="message">
       <span class="te">TE</span>
       <span class="amo">AMO</span>
-      <span class=>✦Feliz 21 de Septiembre mi amada Nericita✦</span>
+      <span class="extra">✦ Feliz 21 de Septiembre mi amada Nericita ✦</span>
     </div>
 
     <div class="bouquet" id="bouquet">
-      <!-- SVG defs once; we’ll reuse with <use> -->
-      <svg width="0" height="0" aria-hidden="true" focusable="false">
-        <defs>
-          <!-- Gradients -->
-          <radialGradient id="petalFill" cx="50%" cy="40%" r="70%">
-            <stop offset="0%"  stop-color="#fff59e"/>
-            <stop offset="45%" stop-color="var(--petal)"/>
-            <stop offset="100%" stop-color="#f6b400"/>
-          </radialGradient>
-          <radialGradient id="diskFill" cx="50%" cy="50%" r="60%">
-            <stop offset="0%" stop-color="#7a4a27"/>
-            <stop offset="60%" stop-color="var(--center)"/>
-            <stop offset="100%" stop-color="#2a1407"/>
-          </radialGradient>
-          <linearGradient id="leafFill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stop-color="#4ae38f"/>
-            <stop offset="100%" stop-color="var(--leaf)"/>
-          </linearGradient>
-
-          <!-- One sunflower head (group) -->
-          <g id="sunflowerHead">
-            <!-- petals: 16 rotated teardrops -->
-            <g id="petal">
-              <path class="petal" d="M0,0 C-10,-26 10,-26 0,-60 C-10,-26 10,-26 0,0Z" />
-            </g>
-            <g>
-              <!-- rotate 16 times -->
-              <use href="#petal" transform="rotate(0)  translate(0,0)"/>
-              <use href="#petal" transform="rotate(22.5) translate(0,0)"/>
-              <use href="#petal" transform="rotate(45)  translate(0,0)"/>
-              <use href="#petal" transform="rotate(67.5) translate(0,0)"/>
-              <use href="#petal" transform="rotate(90)  translate(0,0)"/>
-              <use href="#petal" transform="rotate(112.5) translate(0,0)"/>
-              <use href="#petal" transform="rotate(135) translate(0,0)"/>
-              <use href="#petal" transform="rotate(157.5) translate(0,0)"/>
-              <use href="#petal" transform="rotate(180) translate(0,0)"/>
-              <use href="#petal" transform="rotate(202.5) translate(0,0)"/>
-              <use href="#petal" transform="rotate(225) translate(0,0)"/>
-              <use href="#petal" transform="rotate(247.5) translate(0,0)"/>
-              <use href="#petal" transform="rotate(270) translate(0,0)"/>
-              <use href="#petal" transform="rotate(292.5) translate(0,0)"/>
-              <use href="#petal" transform="rotate(315) translate(0,0)"/>
-              <use href="#petal" transform="rotate(337.5) translate(0,0)"/>
-            </g>
-            <!-- center -->
-            <circle class="disk" r="40" />
-            <!-- tiny highlight seeds -->
-            <g opacity=".25">
-              <circle r="2" cx="-16" cy="-6" fill="#fff9c4"/>
-              <circle r="2" cx="10" cy="8" fill="#fff9c4"/>
-              <circle r="1.8" cx="-5" cy="18" fill="#fff9c4"/>
-              <circle r="1.6" cx="18" cy="-12" fill="#fff9c4"/>
-              <circle r="1.6" cx="-22" cy="14" fill="#fff9c4"/>
-            </g>
-          </g>
-
-          <!-- A leaf -->
-          <path id="leafShape" class="leaf"
-                d="M0,0 C 40,-30 80,0 72,24 C 64,52 28,64 0,44 C -20,30 -10,16 0,0 Z" />
-        </defs>
-      </svg>
-
-      <!-- We compose each flower: curved stem + head + two leaves -->
-      <!-- Positions are done with inline styles for variety -->
-      <div class="flower" style="left:7%;  bottom:10%; animation-delay:-.2s;">
+      <!-- Flor 1 -->
+      <div class="flower">
         <svg width="170" height="400" viewBox="-85 -20 170 420">
           <path class="stem" d="M0,380 C -10,330 -20,270 -8,210 C 6,150 6,100 0,60"/>
-          <use href="#leafShape" transform="translate(-24,220) rotate(-8) scale(.9)"/>
-          <use href="#leafShape" transform="translate(4,290)  rotate(178) scale(.85)"/>
+          <ellipse class="leaf" cx="-24" cy="220" rx="30" ry="15"/>
+          <ellipse class="leaf" cx="20" cy="290" rx="30" ry="15"/>
           <g transform="translate(0,48)">
-            <use href="#sunflowerHead"/>
+            <circle class="disk" r="40"/>
+            <g>
+              <circle class="petal" r="20" cx="60"/>
+              <circle class="petal" r="20" cx="-60"/>
+              <circle class="petal" r="20" cy="60"/>
+              <circle class="petal" r="20" cy="-60"/>
+              <circle class="petal" r="20" cx="42" cy="42"/>
+              <circle class="petal" r="20" cx="-42" cy="42"/>
+              <circle class="petal" r="20" cx="42" cy="-42"/>
+              <circle class="petal" r="20" cx="-42" cy="-42"/>
+            </g>
           </g>
         </svg>
       </div>
 
-      <div class="flower" style="left:22%; bottom:6%; animation-delay:.6s;">
+      <!-- Flor 2 -->
+      <div class="flower">
         <svg width="190" height="420" viewBox="-95 -20 190 440">
           <path class="stem" d="M0,390 C 10,330 20,275 12,220 C 4,160 -6,120 0,70"/>
-          <use href="#leafShape" transform="translate(-28,250) rotate(-22) scale(1)"/>
-          <use href="#leafShape" transform="translate(16,310)  rotate(170) scale(.9)"/>
-          <g transform="translate(0,60) scale(1.05)">
-            <use href="#sunflowerHead"/>
+          <ellipse class="leaf" cx="-28" cy="250" rx="30" ry="15"/>
+          <ellipse class="leaf" cx="16" cy="310" rx="30" ry="15"/>
+          <g transform="translate(0,60)">
+            <circle class="disk" r="40"/>
+            <g>
+              <circle class="petal" r="20" cx="60"/>
+              <circle class="petal" r="20" cx="-60"/>
+              <circle class="petal" r="20" cy="60"/>
+              <circle class="petal" r="20" cy="-60"/>
+              <circle class="petal" r="20" cx="42" cy="42"/>
+              <circle class="petal" r="20" cx="-42" cy="42"/>
+              <circle class="petal" r="20" cx="42" cy="-42"/>
+              <circle class="petal" r="20" cx="-42" cy="-42"/>
+            </g>
           </g>
         </svg>
       </div>
 
-      <div class="flower" style="left:38%; bottom:12%; animation-delay:0s;">
+      <!-- Flor 3 -->
+      <div class="flower">
         <svg width="160" height="360" viewBox="-80 -20 160 380">
           <path class="stem" d="M0,340 C -6,300 -12,250 -6,210 C 0,170 8,120 0,80"/>
-          <use href="#leafShape" transform="translate(-22,210) rotate(-10) scale(.9)"/>
-          <use href="#leafShape" transform="translate(8,270)  rotate(175) scale(.8)"/>
-          <g transform="translate(0,70) scale(.92)">
-            <use href="#sunflowerHead"/>
-          </g>
-        </svg>
-      </div>
-
-      <div class="flower" style="left:56%; bottom:8%; animation-delay:.35s;">
-        <svg width="200" height="420" viewBox="-100 -20 200 440">
-          <path class="stem" d="M0,390 C 14,330 22,280 12,220 C 2,165 -8,120 0,74"/>
-          <use href="#leafShape" transform="translate(-28,260) rotate(-14) scale(1.05)"/>
-          <use href="#leafShape" transform="translate(18,325)  rotate(170) scale(.95)"/>
-          <g transform="translate(0,68) scale(1.12)">
-            <use href="#sunflowerHead"/>
-          </g>
-        </svg>
-      </div>
-
-      <div class="flower" style="left:74%; bottom:10%; animation-delay:.9s;">
-        <svg width="170" height="380" viewBox="-85 -20 170 400">
-          <path class="stem" d="M0,360 C -8,310 -20,260 -8,210 C 6,150 8,110 0,70"/>
-          <use href="#leafShape" transform="translate(-22,240) rotate(-18) scale(.95)"/>
-          <use href="#leafShape" transform="translate(10,300)  rotate(178) scale(.9)"/>
-          <g transform="translate(0,66) scale(1.02)">
-            <use href="#sunflowerHead"/>
+          <ellipse class="leaf" cx="-22" cy="210" rx="30" ry="15"/>
+          <ellipse class="leaf" cx="8" cy="270" rx="30" ry="15"/>
+          <g transform="translate(0,70)">
+            <circle class="disk" r="40"/>
+            <g>
+              <circle class="petal" r="20" cx="60"/>
+              <circle class="petal" r="20" cx="-60"/>
+              <circle class="petal" r="20" cy="60"/>
+              <circle class="petal" r="20" cy="-60"/>
+              <circle class="petal" r="20" cx="42" cy="42"/>
+              <circle class="petal" r="20" cx="-42" cy="42"/>
+              <circle class="petal" r="20" cx="42" cy="-42"/>
+              <circle class="petal" r="20" cx="-42" cy="-42"/>
+            </g>
           </g>
         </svg>
       </div>
     </div>
 
     <div class="ground"></div>
-    <div class="hint">Toca para soltar corazones amorcito ❤ </div>
+    <div class="hint">Toca para soltar corazones amorcito ❤</div>
   </div>
 
 <script>
 (() => {
-  // Particle system (stars/hearts that rise and fade)
   const stage = document.getElementById('stage');
 
   function spawnParticle(x, y, symbol) {
     const p = document.createElement('div');
     p.className = 'particle';
-    p.textContent = symbol || (Math.random() < 0.6 ? '✦' : '❤');
+    p.textContent = symbol || (Math.random() < 0.7 ? '❤' : '✦');
     p.style.left = x + 'px';
     p.style.top = y + 'px';
-    const scale = 0.6 + Math.random()*0.9;
-    const drift = (Math.random()*2 - 1) * 40;
-    const rise = 80 + Math.random()*120;
-    const rotate = (Math.random()*2 - 1) * 40;
-    const duration = 1600 + Math.random()*1200;
 
-    stage.appendChild(p);
+    const rise = 100 + Math.random()*120;
+    const drift = (Math.random()*2 - 1) * 40;
+    const duration = 2000 + Math.random()*1000;
     const start = performance.now();
 
+    stage.appendChild(p);
+
     function frame(t){
-      const k = Math.min(1, (t - start)/duration);
-      const ease = 1 - Math.pow(1-k, 3); // easeOutCubic
-      const tx = x + drift * ease;
-      const ty = y - rise * ease;
-      const s = scale * (1 + 0.2*Math.sin(k*6.283));
-      p.style.transform = `translate(${tx}px, ${ty}px) rotate(${rotate*ease}deg) scale(${s})`;
-      p.style.opacity = (1-k).toFixed(3);
-      if(k < 1) requestAnimationFrame(frame);
+      const k = Math.min(1,(t-start)/duration);
+      const ease = 1-Math.pow(1-k,3);
+      const tx = x + drift*ease;
+      const ty = y - rise*ease;
+      p.style.transform = `translate(${tx}px,${ty}px) scale(${1-k*.3})`;
+      p.style.opacity = (1-k).toFixed(2);
+      if(k<1) requestAnimationFrame(frame);
       else p.remove();
     }
     requestAnimationFrame(frame);
   }
 
-  // Ambient particles
-  function randomAmbient(){
+  setInterval(()=>{
     const rect = stage.getBoundingClientRect();
-    const x = Math.random()*rect.width;
-    const y = rect.height*0.55 + Math.random()*rect.height*0.35;
-    spawnParticle(x, y, Math.random()<0.8 ? '✦' : '❤');
-  }
-  setInterval(randomAmbient, 500);
+    spawnParticle(Math.random()*rect.width, rect.height*0.7+Math.random()*100);
+  }, 600);
 
-  // Click/Tap to spawn bursts
-  function burst(e){
+  stage.addEventListener('click', e=>{
     const rect = stage.getBoundingClientRect();
-    const x = (e.touches ? e.touches[0].clientX : e.clientX) - rect.left;
-    const y = (e.touches ? e.touches[0].clientY : e.clientY) - rect.top;
-    for(let i=0;i<10;i++){
-      setTimeout(()=>spawnParticle(x, y, '❤'), i*10);
-    }
-  }
-  stage.addEventListener('click', burst);
-  stage.addEventListener('touchstart', burst, {passive:true});
+    const x = e.clientX-rect.left;
+    const y = e.clientY-rect.top;
+    for(let i=0;i<10;i++) setTimeout(()=>spawnParticle(x,y,'❤'), i*40);
+  });
 })();
 </script>
 </body>
